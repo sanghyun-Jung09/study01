@@ -1,0 +1,146 @@
+# 빈도분석
+# 유일한 값
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({'A': ['A1', 'A1', 'A2', 'A2', 'A3', 'A3'],
+'B': ['B1', 'B1', 'B1', 'B1', 'B2', np.nan],
+'C': [1, 1, 3, 4, 4, 4]})
+
+df
+#
+#Out[4]:
+#
+#    A    B  C
+#0  A1   B1  1
+#1  A1   B1  1
+#2  A2   B1  3
+#3  A2   B1  4
+#4  A3   B2  4
+#5  A3  NaN  4
+
+# (1) 유일한 값 찾기 : pd.Series.unique()
+
+# pd.Series.unique()는 np.ndarray를 반환합니다. 
+# DataFrame의 각 칼럼별로 indexing해서 unique()를 적용한 결과는 아래와 같습니다.
+df['A'].unique()
+df['B'].unique()
+df['C'].unique()
+
+
+# 카운트 플롯 (countplot)
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import matplotlib.pyplot as plt
+##########데이터 로드
+
+df = pd.DataFrame([
+        ['A01', 2, 1, 60, 139, 'country', 0, 'fail'],
+        ['A02', 3, 2, 80, 148, 'country', 0, 'fail'],
+        ['A03', 3, 4, 50, 149, 'country', 0, 'fail'],
+        ['A04', 5, 5, 40, 151, 'country', 0, 'pass'],
+        ['A05', 7, 5, 35, 154, 'city', 0, 'pass'],
+        ['A06', 2, 5, 45, 149, 'country', 0, 'fail'],
+        ['A07',8, 9, 40, 155, 'city', 1, 'pass'],
+        ['A08', 9, 10, 70, 155, 'city', 3, 'pass'],
+        ['A09', 6, 12, 55, 154, 'city', 0, 'pass'],
+        ['A10', 9, 2, 40, 156, 'city', 1, 'pass'],
+        ['A11', 6, 10, 60, 153, 'city', 0, 'pass'],
+        ['A12', 2, 4, 75, 151, 'country', 0, 'fail']
+    ], columns=['ID', 'hour', 'attendance', 'weight', 'iq', 'region', 'library', 'pass'])
+
+##########데이터 분석
+
+
+sns.countplot(df['region'])
+plt.show()
+
+sns.countplot(x='region', data=df)
+plt.show()
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
+##########데이터 로드
+
+df = pd.DataFrame([
+        ['A01', 2, 1, 60, 139, 'country', 0, 'fail'],
+        ['A02', 3, 2, 80, 148, 'country', 0, 'fail'],
+        ['A03', 3, 4, 50, 149, 'country', 0, 'fail'],
+        ['A04', 5, 5, 40, 151, 'country', 0, 'pass'],
+        ['A05', 7, 5, 35, 154, 'city', 0, 'pass'],
+        ['A06', 2, 5, 45, 149, 'country', 0, 'fail'],
+        ['A07',8, 9, 40, 155, 'city', 1, 'pass'],
+        ['A08', 9, 10, 70, 155, 'city', 3, 'pass'],
+        ['A09', 6, 12, 55, 154, 'city', 0, 'pass'],
+        ['A10', 9, 2, 40, 156, 'city', 1, 'pass'],
+        ['A11', 6, 10, 60, 153, 'city', 0, 'pass'],
+        ['A12', 2, 4, 75, 151, 'country', 0, 'fail']
+    ], columns=['ID', 'hour', 'attendance', 'weight', 'iq', 'region', 'library', 'pass'])
+
+##########데이터 분석
+
+sns.countplot(y='region', data=df)
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 옵션별 그래프차이
+# hue 그룹바이기준을 하나 더 추가함
+sns.countplot(x='region', data=df, hue='pass')
+plt.show()
+
+from sklearn.preprocessing import OneHotEncoder
+encoder=OneHotEncoder(sparse=False)
+df['pass']=encoder.fit_transform(df[['pass']])
+df['region']=encoder.fit_transform(df[['region']])
+
+from scipy.stats import spearmanr
+spearmanr(df['pass'],df['region'])
+
+# 실제로 지역별 시험통과를 countplot으로 시각화할때 groupby를
+# 다음처럼 쓰는 효과가 나타난다.
+sns.countplot(x='region',data=df,hue='pass')
+df.groupby(['region','pass'])['ID'].count()
+
+plt.scatter(x=df['region'],y=df['pass'])
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.countplot(['a', 'b', 'c'])
+plt.show()
+
+
+##########데이터 분석
+
+s = df['region'].value_counts()
+sns.barplot(x=s.index, y=s)
+plt.show()
+
+s = df['region'].value_counts(normalize=True) #비율
+sns.barplot(x=s.index, y=s)
+plt.show()
+
+s = df['region'].value_counts()
+sns.barplot(x=s, y=s.index)
+plt.show()
+
+s = df['region'].value_counts(normalize=True) #비율
+sns.barplot(x=s, y=s.index)
+plt.show()
+
+s = df['region'].value_counts()
+plt.pie(x=s, labels=s.index, autopct='%.1f%%')
+plt.show()
+
+# 단어빈도수분석은 나중에 하기
