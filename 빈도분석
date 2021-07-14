@@ -142,5 +142,3 @@ plt.show()
 s = df['region'].value_counts()
 plt.pie(x=s, labels=s.index, autopct='%.1f%%')
 plt.show()
-
-# 단어빈도수분석은 나중에 하기
